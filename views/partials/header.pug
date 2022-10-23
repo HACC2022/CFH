@@ -52,6 +52,12 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
           a.nav-link(class=(title === 'API Examples') ? 'active' : '')(href='/api') API Examples
         li.nav-item
           a.nav-link(class=(title === 'Contact') ? 'active' : '')(href='/contact') Contact
+        if user
+          li.nav-item
+            a.nav-link(class=(title === 'URLs') ? 'active' : '')(href='/urls') URLs
+          if user.email == "admin@gmail.com"
+            li.nav-item
+              a.nav-link(class=(title === 'Admin') ? 'active' : '')(href='/admin') Admin
 
       form.d-flex
         if !user
