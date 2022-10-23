@@ -16301,15 +16301,3 @@ readers do not read off random characters that represent icons */
 .fa-solid {
   font-family: 'Font Awesome 6 Free';
   font-weight: 900; }
-
-.btn-snapchat {
-  background-color: #fffc00;
-  color: #000 !important; }
-  .btn-snapchat:hover, .btn-snapchat:active {
-    background-color: #f1ef00; }
-
-.btn-twitch {
-  background-color: #6441a5;
-  color: #FFF !important; }
-  .btn-twitch:hover, .btn-twitch:active {
-    background-color: #503484; }
