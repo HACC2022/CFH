@@ -41,7 +41,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
   .container
     a.navbar-brand(href='/')
       img.d-inline-block.align-text-top(src='/bootstrap-logo.svg' alt='' width='30' height='24')
-      |  Hackathon Starter
+      |  URL Shortener
     button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarColor01' aria-controls='navbarColor01' aria-expanded='false' aria-label='Toggle navigation')
       span.navbar-toggler-icon
     #navbarColor01.collapse.navbar-collapse
@@ -49,15 +49,15 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         li.nav-item
           a.nav-link(class=(title === 'Home') ? 'active' : '')(href='/') Home
         li.nav-item
-          a.nav-link(class=(title === 'API Examples') ? 'active' : '')(href='/api') API Examples
+          a.nav-link(class=(title === 'API Examples') ? 'active' : '')(href='/urls') Dashboard
         li.nav-item
-          a.nav-link(class=(title === 'Contact') ? 'active' : '')(href='/contact') Contact
+          a.nav-link(class=(title === 'Contact') ? 'active' : '')(href='/admin') Settings
         if user
           li.nav-item
             a.nav-link(class=(title === 'URLs') ? 'active' : '')(href='/urls') URLs
           if user.email == "admin@gmail.com"
             li.nav-item
-              a.nav-link(class=(title === 'Admin') ? 'active' : '')(href='/admin') Admin
+              a.nav-link(class=(title === 'Admin') ? 'active' : '')(href='/admin') Control Panel
 
       form.d-flex
         if !user
