@@ -1538,8 +1538,7 @@ progress {
   color: #212529;
   background-color: #fff;
   background-clip: padding-box;
-  /* border: 1px solid #ced4da; */
-  border: 2px solid red !important;
+  border: 1px solid #ced4da;
   appearance: none;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
