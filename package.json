@@ -1,15 +1,15 @@
 {
-  "name": "hackathon-starter",
-  "version": "7.0.0",
-  "description": "A boilerplate for Node.js web applications",
+  "name": "get-shawty",
+  "version": "0.0.1",
+  "description": "Get shawty, it's your birthday",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sahat/hackathon-starter.git"
+    "url": "https://github.com/CodeforHawaii/HACC2022"
   },
   "license": "MIT",
-  "author": "Sahat Yalkabov",
+  "author": "CFH-data-monkeys",
   "contributors": [
-    "Yashar Fakhari (https://github.com/YasharF)"
+    "Rick Roll (https://rickroll.com)"
   ],
   "scripts": {
     "postinstall": "npm rebuild node-sass",
@@ -42,6 +42,7 @@
     "moment": "^2.29.1",
     "mongoose": "^6.2.8",
     "morgan": "^1.10.0",
+    "nanoid": "^4.0.0",
     "node-quickbooks": "^2.0.39",
     "node-sass": "^7.0.1",
     "node-sass-middleware": "^1.0.1",
