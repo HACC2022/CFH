@@ -1,0 +1,49 @@
+#      
+#   DShield.org Recommended Block List 
+#    (c) 2022 DShield.org
+#   some rights reserved. Details http://creativecommons.org/licenses/by-nc-sa/2.5/
+#   use on your own risk. No warranties implied.
+#   primary URL: http://feeds.dshield.org/block.txt
+#     PGP Sign.: http://feeds.dshield.org/block.txt.asc
+#
+#   comments: info@dshield.org
+#    updated: Sun Oct 23 02:15:26 2022 UTC
+#   
+#    This list summarizes the top 20 attacking class C (/24) subnets
+#   over the last three days. The number of 'attacks' indicates the 
+#   number of targets reporting scans from this subnet.
+#
+#
+#    Columns (tab delimited):
+#
+#    (1) start of netblock  
+#    (2) end of netblock
+#    (3) subnet (/24 for class C)
+#    (4) number of targets scanned
+#    (5) name of Network 
+#    (6) Country
+#    (7) contact email address
+#
+#    If a range is assigned to multiple users, the first one is listed. 
+#     
+Start	End	Netmask	Attacks	Name	Country	email
+89.248.165.0	89.248.165.255	24	9582	INT-NETWORK	SC	abuse@ipvolume.net
+92.63.197.0	92.63.197.255	24	8540	SIBIRINVEST	NL	qwalarty@ukr.net
+5.8.18.0	5.8.18.255	24	8228	INT-NETWORK	SC	abuse@ipvolume.net
+78.128.113.0	78.128.113.255	24	7594	MITI2000	BG	>>UNKNOWN<<
+91.191.209.0	91.191.209.255	24	7584	LL-INVESTMENT-LTD	BG	abuse@cloudbs.biz
+185.156.73.0	185.156.73.255	24	7262	SIBIRINVEST	NL	qwalarty@ukr.net
+5.188.206.0	5.188.206.255	24	7220	KREZ999AS	BG	abuse@fastvps.biz
+78.128.112.0	78.128.112.255	24	5519	AS_4MEDIA	BG	abuse@4media.bg
+89.248.163.0	89.248.163.255	24	3929	INT-NETWORK	SC	abuse@ipvolume.net
+123.160.221.0	123.160.221.255	24	3637	CHINANET-BACKBONE No.31,Jin-rong Street	CN	anti-spam@ns.chinanet.cn.net
+87.246.7.0	87.246.7.255	24	3348	GCN-AS GCN AD - Sofia, Bulgaria	BG	noc@gcn.bg
+193.163.125.0	193.163.125.255	24	2883	CYBER-CASA	GB	>>UNKNOWN<<
+111.7.96.0	111.7.96.255	24	2765	CHINAMOBILE-CN China Mobile Communications Group Co., Ltd.	CN	ipas@cnnic.cn
+205.210.31.0	205.210.31.255	24	2739	GOOGLE-CLOUD-PLATFORM	US	
+198.235.24.0	198.235.24.255	24	2727	GOOGLE-CLOUD-PLATFORM	US	
+94.102.61.0	94.102.61.255	24	2679	INT-NETWORK	SC	abuse@ipvolume.net
+64.62.197.0	64.62.197.255	24	2576	HURRICANE	US	abuse@he.net
+91.240.118.0	91.240.118.255	24	2304	CHANGWAY-AS	HK	noc@ameurotel.com
+45.143.200.0	45.143.200.255	24	2296	ROZA-AS	BG	>>UNKNOWN<<
+213.226.123.0	213.226.123.255	24	2096	ITRESHENIYA-AS	RU	abuse@iosaz.net
