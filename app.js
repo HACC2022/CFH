@@ -81,12 +81,14 @@ app.use((req, res, next) => {
   if (req.path === '/api/upload') {
     // Multer multipart/form-data handling needs to occur before the Lusca CSRF check.
     next();
-  } else {
-    lusca.csrf()(req, res, next);
   }
+  // else {
+  //   lusca.csrf()(req, res, next);
+  // }
+  next();
 });
-app.use(lusca.xframe('SAMEORIGIN'));
-app.use(lusca.xssProtection(true));
+// app.use(lusca.xframe('SAMEORIGIN'));
+// app.use(lusca.xssProtection(true));
 app.disable('x-powered-by');
 app.use((req, res, next) => {
   res.locals.user = req.user;
@@ -129,7 +131,6 @@ app.post('/signup', userController.postSignup);
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
 app.get('/urls', urlsController.index);
-app.get('/url', urlsController.getURL);
 app.get('/admin', adminController.index);
 app.get('/account/verify', passportConfig.isAuthenticated, userController.getVerifyEmail);
 app.get('/account/verify/:token', passportConfig.isAuthenticated, userController.getVerifyEmailToken);
