@@ -31,6 +31,7 @@ const contactController = require('./controllers/contact');
 const urlsController = require('./controllers/urls');
 const adminController = require('./controllers/admin');
 const shortUrlController = require('./controllers/shortUrl');
+const shortenerController = require('./controllers/shortener');
 
 
 /**
@@ -140,6 +141,9 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 app.post('/shorten', shortUrlController.postShortUrl);
+app.get('/shortener', shortenerController.index);
+
+// Must be last due to wildcard matching
 app.get('/:slug', shortUrlController.getShortUrl);
 
 /**

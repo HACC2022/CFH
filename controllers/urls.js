@@ -1,5 +1,5 @@
 /**
- * GET /
+ * GET /urls
  * URLs page.
  */
  exports.index = (req, res) => {
