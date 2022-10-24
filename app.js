@@ -140,7 +140,7 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 app.post('/shorten', shortUrlController.postShortUrl);
-app.get('/shorten/:slug', shortUrlController.getShortUrl);
+app.get('/:slug', shortUrlController.getShortUrl);
 
 /**
  * API examples routes.
