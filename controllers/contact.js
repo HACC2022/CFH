@@ -77,7 +77,7 @@ exports.postContact = async (req, res) => {
     const mailOptions = {
       to: process.env.SITE_CONTACT_EMAIL,
       from: `${fromName} <${fromEmail}>`,
-      subject: 'Contact Form | Hackathon Starter',
+      subject: 'Contact Form',
       text: req.body.message
     };
 
