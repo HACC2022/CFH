@@ -4,7 +4,7 @@ const { validateUrl } = require('../utils/utils')
 // dotenv.config({ path: '.env.example' })
 
 exports.postShortUrl = async (req, res) => {
-  const { longUrl } = req.body
+  const { longUrl, user } = req.body
   const base = process.env.BASE_URL
 
   const { nanoid } = await import ('nanoid')
@@ -12,7 +12,7 @@ exports.postShortUrl = async (req, res) => {
   const slug = nanoid(5)
   if (validateUrl(longUrl)) {
     try {
-      let url = await Url.findOne({ longUrl })
+      let url = await Url.findOne({ longUrl, user })
       if (url) {
         res.json(url)
       } else {
@@ -23,6 +23,7 @@ exports.postShortUrl = async (req, res) => {
           shortUrl,
           slug,
           date: new Date(),
+          user,
         })
 
         await url.save()

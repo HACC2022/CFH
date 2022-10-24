@@ -15,6 +15,9 @@ html.h-100
   body.d-flex.flex-column.h-100
     include partials/header
 
+    if user
+      p#currentUserEmail.visually-hidden=user.email
+
     .flex-shrink-0
       .container.mt-3
         include partials/flash
