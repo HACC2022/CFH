@@ -30,6 +30,7 @@ const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 const urlsController = require('./controllers/urls');
 const adminController = require('./controllers/admin');
+const shortUrlController = require('./controllers/shortUrl');
 
 
 /**
@@ -81,12 +82,13 @@ app.use((req, res, next) => {
   if (req.path === '/api/upload') {
     // Multer multipart/form-data handling needs to occur before the Lusca CSRF check.
     next();
-  } else {
-    lusca.csrf()(req, res, next);
-  }
+  } //else {
+    //lusca.csrf()(req, res, next);
+  //}
+  next();
 });
-app.use(lusca.xframe('SAMEORIGIN'));
-app.use(lusca.xssProtection(true));
+// app.use(lusca.xframe('SAMEORIGIN'));
+// app.use(lusca.xssProtection(true));
 app.disable('x-powered-by');
 app.use((req, res, next) => {
   res.locals.user = req.user;
@@ -137,6 +139,8 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+app.post('/shorten', shortUrlController.postShortUrl);
+app.get('/shorten/:slug', shortUrlController.getShortUrl);
 
 /**
  * API examples routes.
