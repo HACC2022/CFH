@@ -3,8 +3,35 @@ extends layout
 block head
 
 block content
-  .pb-2.mt-2.mb-4.border-bottom
-
-  h3 Your URLs
-
-  p Here are the URLs you have shortened.
+  .pb-2.mt-2
+    if user.profile.name == ''
+      h3 Welcome #{user.email}
+    else
+      h3 Welcome #{user.profile.name}
+    p Here are previous URLs you have shortened. 
+    .table-responsive
+      table.table.table-striped
+        thead
+          tr
+            th(scope='col') Alias
+            th(scope='col') Date
+            th(scope='col') Original URL
+        tbody
+          each user in userInfo
+            if user.id == currentUser
+          each link in urlInfo
+            if link.user == user.email
+              tr
+                td
+                  a(href=`${link.shortUrl}` target="_blank") #{link.shortUrl}
+                td
+                  p #{link.date}
+                td
+                  a(href=`${link.longUrl}` target="_blank ") #{link.longUrl}
+                td
+                  a.btn.btn-success.mx-1.my-3(href='#')
+                    i.fas.fa-edit
+                  form.d-inline-block#delete-form(action="#", method="post")
+                  input(type='hidden', value='DELETE', name='_method')
+                  button.btn.btn-danger.mx-1.my-3(type='submit')
+                    i.fas.fa-trash

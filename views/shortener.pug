@@ -4,21 +4,13 @@ block head
   script(src='https://www.google.com/recaptcha/api.js' async='' defer='')
 
 block content
-  .pb-2.mt-2.mb-4.border-bottom
-    h3 Enter a long URL to create a gov URL
-
-  form(method='POST')
-    input(type='hidden', name='_csrf', value=_csrf)
-  .form-group.row
-  label(class='col-md-2 col-form-label font-weight-bold', for='name') Long Url
-  .col-md-8
-    input.form-control(type='url', name='longUrl', autofocus, required)
-  .form-group.row
-  label(class='col-md-2 col-form-label font-weight-bold', for='name') Alias Url
-  .col-md-8
-    input.form-control(type='text', name='aliasUrl', autofocus, required)
-    .form-group
-        br
-        button.btn.btn-primary#submit-btn(type='submit')
-          i.far.fa-envelope.fa-sm
-          |  Send
+  .card.rounded-10.pb-4.pt-2.mt-4.px-5.mx-auto
+    form(method='POST') 
+      input(type='hidden', name='_csrf', value=_csrf)
+      label.col-form-label.d-block(for='name') Enter the link you want to shorten
+      input.form-control.mb-3(type='url', name='longUrl', placeholder='https://portal.ehawaii.gov/residents/newcomers-guide/#becomeAResidentOfHawaii', autofocus, required)
+      label.col-form-label.d-block(for='name') Customize the alias
+      input.form-control.mb-3(type='text', name='aliasUrl', placeholder='NewcomersGuide', autofocus, required)
+      button.btn.btn-primary.w-100#submit-btn(type='submit')
+        i.far.fa-envelope.fa-sm
+        |  Send
