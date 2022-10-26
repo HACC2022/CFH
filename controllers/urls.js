@@ -2,7 +2,6 @@
  * GET /urls
  * URLs page.
  */
-const { request } = require('gaxios');
 const Url = require('../models/Url')
 const User = require('../models/User')
 
