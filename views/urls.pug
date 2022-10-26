@@ -16,6 +16,7 @@ block content
             th(scope='col') Alias
             th(scope='col') Date
             th(scope='col') Original URL
+            th(scope='col') Visits
         tbody
           each user in userInfo
             if user.id == currentUser
@@ -28,6 +29,8 @@ block content
                   p #{link.date}
                 td
                   a(href=`${link.longUrl}` target="_blank ") #{link.longUrl}
+                td
+                  p #{link.clickCounter}
                 td
                   a.btn.btn-success.mx-1.my-3(href='#')
                     i.fas.fa-edit

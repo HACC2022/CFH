@@ -13,7 +13,8 @@ exports.index = async (req, res) => {
       title: 'URLs',
       urlInfo:links,
       currentUser:req.user.id,
-      userInfo:users
+      userInfo:users,
+      visits: links.clickCounter,
     })
   } catch(error) {
     console.error(error)
