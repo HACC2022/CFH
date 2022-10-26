@@ -10,31 +10,37 @@ exports.postShortUrl = async (req, res) => {
   const { nanoid } = await import ('nanoid')
 
   const slug = nanoid(5)
-  if (validateUrl(longUrl)) {
-    try {
-      let url = await Url.findOne({ longUrl, user })
-      if (url) {
-        res.json(url)
-      } else {
-        const shortUrl = `${base}/${slug}`
+  if (!validateUrl(longUrl)) {
+    return res.status(401).json({
+      error: true,
+      message: 'Invalid Url'
+    });
+  }
 
-        url = new Url({
-          longUrl,
-          shortUrl,
-          slug,
-          date: new Date(),
-          user,
-        })
+  try {
+    let url = await Url.findOne({ longUrl, user })
+    if (url) {
+      return res.json(url)
+    } else {
+      const shortUrl = `${base}/${slug}`
 
-        await url.save()
-        res.json(url)
-      }
-    } catch (err) {
-      console.error(err)
-      res.status(500).json('Server Error')
+      url = new Url({
+        longUrl,
+        shortUrl,
+        slug,
+        date: new Date(),
+        user,
+      })
+
+      await url.save()
+      return res.json(url)
     }
-  } else {
-    res.status(401).json('Invalid Url')
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json({
+      error: true,
+      message: 'Server Error'
+    });
   }
 }
 

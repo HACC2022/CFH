@@ -2,17 +2,34 @@
 $(document).ready(() => {
   // Place JavaScript code here...
   $('#submit-btn').on('click', async () => {
+    $('#error-message').addClass('invisible');
+    $('#error-message').addClass('d-none');
+    $('#result').addClass('invisible');
+    $('#result').addClass('d-none');
+
     const userLongURL = $('input[name="longUrl"]').val();
     const currentUserEmail = $('p#currentUserEmail').text();
 
-    const {slug, longUrl, shortUrl, clickCounter, date} = await getURL(userLongURL, currentUserEmail);
-    
-    const slugEl = `<p>Slug is: ${slug}</p>`
-    const shortURLEl = `<p>ShortUrl is: ${shortUrl}</p>`
-    const longURLEL = `<p>longUrl is: ${longUrl}</p>`
-    const clickCounterEl = `<p>ClickCounter is: ${clickCounter}</p>`
-    const dateEl = `<p>Date is: ${date}</p>`
-    $("body").append(slugEl, shortURLEl, longURLEL, clickCounterEl, dateEl);
+    const {
+      error, message,
+      slug, longUrl, shortUrl, clickCounter, date
+    } = await getURL(userLongURL, currentUserEmail);
+
+    console.log(error);
+    console.log(message);
+
+    if (error) {
+      $('#error-message').removeClass('invisible');
+      $('#error-message').removeClass('d-none');
+      $('#error-message').text("⚠️ " + message);
+      return;
+    }
+
+    $('#result').removeClass('invisible');
+    $('#result').removeClass('d-none');
+
+    $('#shortUrl').text(slug);
+    // $("body").append(slugEl, shortURLEl, longURLEL, clickCounterEl, dateEl);
   });
 });
 
@@ -25,6 +42,8 @@ async function getURL(userURL, currentUserEmail) {
     body: JSON.stringify({longUrl: userURL, user: currentUserEmail})
   }
   const response = await fetch("/shorten", options)
+
+  const json = await response.json();
   
-  return await response.json();
+  return json;
 }

@@ -24,7 +24,7 @@ block content
             if link.user == user.email
               tr
                 td
-                  a(href=`${link.shortUrl}` target="_blank") #{link.shortUrl}
+                  a(href=`${link.slug}` target="_blank") #{link.slug}
                 td
                   p #{link.date}
                 td
