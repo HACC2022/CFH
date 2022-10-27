@@ -132,7 +132,7 @@ app.post('/signup', userController.postSignup);
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
 app.get('/urls', urlsController.index);
-app.delete('/urls', urlsController.deleteUrl);
+app.delete('/urls/deleteUrl', urlsController.deleteUrl);
 app.get('/admin', adminController.index);
 app.get('/account/verify', passportConfig.isAuthenticated, userController.getVerifyEmail);
 app.get('/account/verify/:token', passportConfig.isAuthenticated, userController.getVerifyEmailToken);
