@@ -53,7 +53,8 @@ mongoose.connection.on('error', (err) => {
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.');
   process.exit();
 });
-
+// Allows modules to be used in pug
+app.locals.moment = require('moment');
 /**
  * Express configuration.
  */
