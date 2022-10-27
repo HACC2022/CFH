@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const UrlSchema = new mongoose.Schema({
   slug: {
     type: String,
+    unique: true,
     required: true,
   },
   longUrl: {

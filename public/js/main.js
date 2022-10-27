@@ -9,11 +9,12 @@ $(document).ready(() => {
 
     const userLongURL = $('input[name="longUrl"]').val();
     const currentUserEmail = $('p#currentUserEmail').text();
+    const userSlug = $('input[name="slug"]').val();
 
     const {
       error, message,
       slug, longUrl, shortUrl, clickCounter, date
-    } = await getURL(userLongURL, currentUserEmail);
+    } = await getURL(userLongURL, currentUserEmail, userSlug);
 
     console.log(error);
     console.log(message);
@@ -64,14 +65,15 @@ $(document).ready(() => {
 
 });
 
-async function getURL(userURL, currentUserEmail) {
+async function getURL(userURL, currentUserEmail, userSlug) {
   const options = {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ longUrl: userURL, user: currentUserEmail })
+    body: JSON.stringify({ slug: userSlug, longUrl: userURL, user: currentUserEmail, })
   }
+  console.log(userSlug);
   const response = await fetch("/shorten", options)
 
   const json = await response.json();
