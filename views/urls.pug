@@ -26,7 +26,7 @@ block content
                 td
                   a(href=`${link.slug}` target="_blank") #{link.slug}
                 td
-                  p #{link.date}
+                  p= moment(link.date).format('MMMM Do YYYY, h:mm:ss a')
                 td
                   a(href=`${link.longUrl}` target="_blank ") #{link.longUrl}
                 td
