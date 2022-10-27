@@ -32,9 +32,10 @@ block content
                 td
                   p #{link.clickCounter}
                 td
-                  a.btn.btn-success.mx-1.my-3(href='#')
+                  a.btn.btn-success.mx-1.my-3#editUrlBtn(href='#')
                     i.fas.fa-edit
                   form.d-inline-block#delete-form(action="#", method="post")
                   input(type='hidden', value='DELETE', name='_method')
-                  button.btn.btn-danger.mx-1.my-3(type='submit')
+                  button.btn.btn-danger.mx-1.my-3#delUrlBtn(type='submit')
                     i.fas.fa-trash
+  script(src="/js/urlBtns.js")
