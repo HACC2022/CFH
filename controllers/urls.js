@@ -24,7 +24,7 @@ module.exports = {
   deleteUrl: async (req, res) => {
     console.log(req.body.slugFromJSFile)
     try {
-        await Url .findOneAndDelete({slug:req.body.slugFromJSFile})
+        await Url.findOneAndDelete({slug:req.body.slugFromJSFile})
         console.log('Deleted Todo')
         res.json('Deleted It')
     } catch(error) {
