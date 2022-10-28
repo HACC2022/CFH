@@ -2,20 +2,21 @@
  * GET /urls
  * URLs page.
  */
-const Url = require('../models/Url')
-const User = require('../models/User')
+const Urls = require('../models/Url')
+const Users = require('../models/User')
 
 module.exports = {
   index: async (req, res) => {
     try {
-      const links = await Url.find()
-      const users = await User.find()
+      const currentUser = await Users.find({_id: req.user.id})
+      const userLinks = await Urls.find({user: currentUser[0].email})
+
       res.render('urls', {
         title: 'URLs',
-        urlInfo:links,
+        urlInfo:userLinks,
         currentUser:req.user.id,
-        userInfo:users,
-        visits: links.clickCounter,
+        userInfo:currentUser,
+        visits: userLinks.clickCounter,
       })
     } catch(error) {
       console.error(error)
