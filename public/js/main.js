@@ -52,6 +52,15 @@ $(document).ready(() => {
     textareaEl.remove();
 
   })
+
+  $("[id^=copyUrlBtn]").on("click", (e) => {
+    const urlID = e.currentTarget.id
+    const indexNum = urlID.substring(urlID.lastIndexOf("-") + 1, urlID.length);
+    const link = $(`#shortLink-${indexNum}`).prop("href");
+    navigator.clipboard.writeText(link);
+    alert("Copied the text: " + link);
+  })
+
 });
 
 async function getURL(userURL, currentUserEmail) {
