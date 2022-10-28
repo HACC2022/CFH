@@ -1,13 +1,42 @@
 const Url = require('../models/Url')
 const { validateUrl } = require('../utils/utils')
+const compareUrls = require('compare-urls');
 // const dotenv = require('dotenv')
 // dotenv.config({ path: '.env.example' })
+
+
+const urlNotDenylisted = (url) => {
+  const denylist = [
+    "menehune.azurewebsites.net", // Prevent recursive shortening
+    "4chan.org", // Hackers known as 4chan
+    "localhost" // Prevent self destruction
+  ];
+
+  let urlObj = {};
+  try {
+    urlObj = new URL(url);
+  } catch (err) {
+    return 'Invalid URL';
+  }
+  
+  for (const deniedUrl of denylist) {
+    if (denylist.includes(urlObj.hostname) || denylist.includes(urlObj.host)) {
+      return "That URL domain is banned";
+    }
+  }
+
+  return true;
+}
+
+const validators = [
+  urlNotDenylisted
+];
 
 exports.postShortUrl = async (req, res) => {
   const { longUrl, user } = req.body
   const base = process.env.BASE_URL
 
-  const { nanoid } = await import ('nanoid')
+  const { nanoid } = await import ('nanoid');
 
   const slug = nanoid(5)
   if (!validateUrl(longUrl)) {
@@ -15,6 +44,16 @@ exports.postShortUrl = async (req, res) => {
       error: true,
       message: 'Invalid Url'
     });
+  }
+
+  for (const validator of validators) {
+    const validationResult = validator(longUrl);
+    if (validationResult !== true) {
+      return res.status(400).json({
+        error: true,
+        message: validationResult
+      });
+    }
   }
 
   try {

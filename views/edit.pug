@@ -13,7 +13,7 @@ block content
         input.form-control.mb-3(type='url', name='longUrl', placeholder='https://portal.ehawaii.gov/residents/newcomers-guide/#becomeAResidentOfHawaii', autofocus, required value=`${links.longUrl}`)
         .alert.alert-danger.invisible.d-none#error-message
         label.col-form-label.d-block(for='name') Customize your link
-        input.form-control.mb-3(type='text', name='aliasUrl', placeholder='NewcomersGuide', autofocus, required value=`${links.slug}`)
+        input.form-control.mb-3(type='text', name='aliasUrl', placeholder='NewcomersGuide', autofocus, value=`${links.slug}`)
         button.btn.btn-primary.w-100(type='submit')
           i.far.fa-envelope.fa-sm
           |  Send
