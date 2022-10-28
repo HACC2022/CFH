@@ -39,7 +39,7 @@
     "lodash": "^4.17.21",
     "lusca": "^1.7.0",
     "mailchecker": "^4.1.14",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "mongoose": "^6.2.8",
     "morgan": "^1.10.0",
     "nanoid": "^4.0.0",
