@@ -9,12 +9,16 @@ block content
     else
       h3 Welcome #{user.profile.name}
     p Here are previous URLs you have shortened. 
+    .d-flex.justify-content-end 
+      a(href='/urls/' class='fas fa-redo text-dark text-decoration-none mx-2' title="Reset to default")
+      a(href='/urls/sortDes' class='fas fa-sort-amount-down text-dark text-decoration-none mx-2' title="Sort by descending date")
+      a(href='/urls/sortAsc' class='fas fa-sort-amount-up-alt text-dark text-decoration-none mx-2' title="Sort by ascending date")
     .table-responsive
       table.table.table-striped
         thead
           tr
             th(scope='col') Alias
-            th(scope='col') Date
+            th(scope='col') Date 
             th(scope='col') Original URL
             th(scope='col') Visits
         tbody
@@ -32,10 +36,9 @@ block content
                 td
                   p #{link.clickCounter}
                 td
-                  a.btn.btn-success.mx-1.my-3#editUrlBtn(href='#')
+                  a.btn.btn-success.mx-1.my-3#editUrlBtn(href=`/urls/edit/${link.id}`)
                     i.fas.fa-edit
                   form.d-inline-block#delete-form(action="#", method="post")
-                  input(type='hidden', value='DELETE', name='_method')
                   button.btn.btn-danger.mx-1.my-3#delUrlBtn(type='submit')
                     i.fas.fa-trash
   script(src="/js/urlBtns.js")
