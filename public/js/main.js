@@ -25,12 +25,33 @@ $(document).ready(() => {
       return;
     }
 
-    $('#result').removeClass('invisible');
+    $('#result').removeClass('invisible'); 
     $('#result').removeClass('d-none');
+    $('#copy-btn').removeClass('invisible');
+    $('#copy-btn').removeClass('d-none');
 
-    $('#shortUrl').text(slug);
+    $('#shortUrl').text(shortUrl);
     // $("body").append(slugEl, shortURLEl, longURLEL, clickCounterEl, dateEl);
   });
+
+  $("#copy-btn").on("click", () => {
+    const copyText = document.getElementById("shortUrl").innerText;
+    
+    const textareaEl = document.createElement("textarea")
+    textareaEl.value = copyText;
+    // Select the text field
+    textareaEl.select();
+    textareaEl.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(textareaEl.value);
+    
+    // Alert the copied text
+    alert("Copied the text: " + textareaEl.value);
+    
+    textareaEl.remove();
+
+  })
 });
 
 async function getURL(userURL, currentUserEmail) {
