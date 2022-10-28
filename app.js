@@ -159,6 +159,7 @@ app.get('/urls/edit/:id', urlsController.editUrl);
 // app.put('/urls/:id', urlsController.updateUrl);
 app.delete('/urls/deleteUrl', urlsController.deleteUrl);
 app.get('/admin', adminController.index);
+app.get('/admin/country', adminController.country);
 app.get('/account/verify', passportConfig.isAuthenticated, userController.getVerifyEmail);
 app.get('/account/verify/:token', passportConfig.isAuthenticated, userController.getVerifyEmailToken);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
@@ -168,6 +169,7 @@ app.post('/account/delete', passportConfig.isAuthenticated, userController.postD
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 app.post('/shorten', shortUrlController.postShortUrl);
 app.get('/shortener', shortenerController.index);
+
 
 // Must be last due to wildcard matching
 app.get('/:slug', shortUrlController.getShortUrl);

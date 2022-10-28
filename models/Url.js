@@ -25,6 +25,15 @@ const UrlSchema = new mongoose.Schema({
   user: {
     type: String,
     required: true,
+  },
+  ipAddess: {
+    type: String,
+  },
+  country: {
+    type: String,
+  },
+  countryCode: {
+    type: String,
   }
 })
 

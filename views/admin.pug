@@ -1,6 +1,26 @@
 extends layout
 
 block head
+  link('rel'='stylesheet' href='https://unpkg.com/leaflet@1.9.2/dist/leaflet.css')
+  script(src='https://unpkg.com/leaflet@1.9.2/dist/leaflet.js')
+  script(src='/js/countries.geo.js')
+  style.
+    #map {
+      width: 100%;
+      height: 500px;
+    }
+    .info {
+      padding: 6px 8px;
+      font: 14px/16px Arial, Helvetica, sans-serif;
+      background: white;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border-radius: 5px;
+    }
+    .info h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
 
 block content
   .pb-2.mt-2.mb-4.border-bottom
@@ -8,7 +28,10 @@ block content
   h3 Admin Page
 
   p Here are the admin things.
-  p ... Map of where requests are coming from ...
   p ... Statistics of bad URLs being requested ...
   p ... Audit of shortened URLs being created, and by who ...
   p ... Etc ...
+
+  div#map
+
+  script(src='/js/map.js')

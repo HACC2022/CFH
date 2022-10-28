@@ -1,8 +1,19 @@
 const Url = require('../models/Url')
 const { validateUrl } = require('../utils/utils')
-const compareUrls = require('compare-urls');
+const dns = require('dns');
+const fetch = require('node-fetch');
+
 // const dotenv = require('dotenv')
 // dotenv.config({ path: '.env.example' })
+
+async function lookupPromise(domain) {
+  return new Promise((resolve, reject) => {
+    dns.lookup(domain, (err, address, family) => {
+      if (err) reject(err);
+      resolve(address);
+    });
+  });
+};
 
 
 const urlNotDenylisted = (url) => {
@@ -18,11 +29,9 @@ const urlNotDenylisted = (url) => {
   } catch (err) {
     return 'Invalid URL';
   }
-  
-  for (const deniedUrl of denylist) {
-    if (denylist.includes(urlObj.hostname) || denylist.includes(urlObj.host)) {
-      return "That URL domain is banned";
-    }
+
+  if (denylist.includes(urlObj.hostname) || denylist.includes(urlObj.host)) {
+    return "That URL domain is banned";
   }
 
   return true;
@@ -36,7 +45,7 @@ exports.postShortUrl = async (req, res) => {
   const { longUrl, user } = req.body
   const base = process.env.BASE_URL
 
-  const { nanoid } = await import ('nanoid');
+  const { nanoid } = await import('nanoid');
 
   const slug = nanoid(5)
   if (!validateUrl(longUrl)) {
@@ -56,6 +65,12 @@ exports.postShortUrl = async (req, res) => {
     }
   }
 
+  const ipAddress = await lookupPromise(new URL(longUrl).hostname);
+
+  const response = await fetch(`http://ip-api.com/json/${ipAddress}`);
+
+  const { country, countryCode } = await response.json();
+
   try {
     let url = await Url.findOne({ longUrl, user })
     if (url) {
@@ -69,6 +84,9 @@ exports.postShortUrl = async (req, res) => {
         slug,
         date: new Date(),
         user,
+        ipAddress,
+        country,
+        countryCode
       })
 
       await url.save()
@@ -94,7 +112,7 @@ exports.getShortUrl = async (req, res) => {
       return res.redirect(url.longUrl)
     } else {
       res.status(404).json('No url found')
-    } 
+    }
   } catch (err) {
     console.error(err)
     res.status(500).json('Server Error')
