@@ -32,7 +32,7 @@ block content
                 td
                   p= moment(link.date).format('MMMM Do YYYY, h:mm:ss a')
                 td
-                  a(href=`${link.longUrl}` target="_blank ") #{link.longUrl}
+                  a(href=`//${link.longUrl.replace(/(^\w+:|^)\/\//, '')}` target="_blank ") #{link.longUrl}
                 td
                   p #{link.clickCounter}
                 td
