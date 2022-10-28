@@ -24,11 +24,11 @@ block content
         tbody
           each user in userInfo
             if user.id == currentUser
-          each link in urlInfo
+          each link,index in urlInfo
             if link.user == user.email
               tr
                 td
-                  a(href=`${link.slug}` target="_blank") #{link.slug}
+                  a(href=`${link.slug}` target="_blank" id=`shortLink-${index}`) #{link.slug}
                 td
                   p= moment(link.date).format('MMMM Do YYYY, h:mm:ss a')
                 td
@@ -38,6 +38,8 @@ block content
                 td
                   a.btn.btn-success.mx-1.my-3#editUrlBtn(href=`/urls/edit/${link.id}`)
                     i.fas.fa-edit
+                  button.btn.btn-primary.mx-1.my-3(id=`copyUrlBtn-${index}`)
+                    i.fas.fa-clipboard
                   form.d-inline-block#delete-form(action="#", method="post")
                   button.btn.btn-danger.mx-1.my-3#delUrlBtn(type='submit')
                     i.fas.fa-trash
