@@ -25,7 +25,7 @@ module.exports = {
   deleteUrl: async (req, res) => {
     console.log(req.body.slugFromJSFile)
     try {
-        await Url.findOneAndDelete({slug:req.body.slugFromJSFile})
+        await Urls.findOneAndDelete({slug:req.body.slugFromJSFile})
         console.log('Deleted Todo')
         res.json('Deleted It')
     } catch(error) {
@@ -34,8 +34,8 @@ module.exports = {
   },
   sortDescending: async (req, res) => {
     try {
-      const links = await Url.find().sort({date:-1})
-      const users = await User.find()
+      const links = await Urls.find().sort({date:-1})
+      const users = await Users.find()
       res.render('urls', {
         title: 'URLs',
         urlInfo:links,
@@ -49,8 +49,8 @@ module.exports = {
   },
   sortAscending: async (req, res) => {
     try {
-      const links = await Url.find().sort({date:1})
-      const users = await User.find()
+      const links = await Urls.find().sort({date:1})
+      const users = await Users.find()
       res.render('urls', {
         title: 'URLs',
         urlInfo:links,
@@ -64,8 +64,8 @@ module.exports = {
   },
   editUrl: async (req, res) => {
     try {
-      let links = await Url.findById(req.params.id)
-      let users = await User.find({email:links.user})
+      let links = await Urls.findById(req.params.id)
+      let users = await Users.find({email:links.user})
 
       if (!users) {
         res.redirect('/')
