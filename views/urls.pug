@@ -11,8 +11,8 @@ block content
     p Here are previous URLs you have shortened. 
     .d-flex.justify-content-end 
       a(href='/urls/' class='fas fa-redo text-dark text-decoration-none mx-2' title="Reset to default")
-      a(href='/urls/sortDes' class='fas fa-sort-amount-down text-dark text-decoration-none mx-2' title="Sort by descending date")
-      a(href='/urls/sortAsc' class='fas fa-sort-amount-up-alt text-dark text-decoration-none mx-2' title="Sort by ascending date")
+      a(href='/urls/sortDes' class='fas fa-sort-amount-down text-dark text-decoration-none mx-2' title="Sort by descending visits")
+      a(href='/urls/sortAsc' class='fas fa-sort-amount-up-alt text-dark text-decoration-none mx-2' title="Sort by ascending visits")
     .table-responsive
       table.table.table-striped
         thead
@@ -30,17 +30,26 @@ block content
                 td
                   a(href=`${link.slug}` target="_blank" id=`shortLink-${index}`) #{link.slug}
                 td
-                  p= moment(link.date).format('MMMM Do YYYY, h:mm:ss a')
+                  p= moment(link.date).format('llll')
                 td
                   a(href=`//${link.longUrl.replace(/(^\w+:|^)\/\//, '')}` target="_blank ") #{link.longUrl}
                 td
                   p #{link.clickCounter}
                 td
-                  a.btn.btn-success.mx-1.my-3#editUrlBtn(href=`/urls/edit/${link.id}`)
+                  a.btn.btn-success.mx-1.my-3#editUrlBtn(href=`/urls/edit/${link.id}` title="Edit URL")
                     i.fas.fa-edit
-                  button.btn.btn-primary.mx-1.my-3(id=`copyUrlBtn-${index}`)
+                  button.btn.btn-primary.mx-1.my-3(id=`copyUrlBtn-${index}` title="Copy to clipboard")
                     i.fas.fa-clipboard
                   form.d-inline-block#delete-form(action="#", method="post")
-                  button.btn.btn-danger.mx-1.my-3#delUrlBtn(type='submit')
+                  button.btn.btn-danger.mx-1.my-3#delUrlBtn(type='submit' title="Delete URL")
                     i.fas.fa-trash
+  div
+    nav
+    ul.pagination.d-flex.justify-content-center
+      li.page-item
+        a.page-link(href='/urls?p=0' title="Display 10 entries") 1
+      li.page-item
+        a.page-link(href='/urls?p=1' title="Display 10 entries") 2
+      li.page-item
+        a.page-link(href='/urls?p=2' title="Display 10 entries") 3
   script(src="/js/urlBtns.js")

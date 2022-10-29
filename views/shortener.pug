@@ -12,7 +12,7 @@ block content
         input.form-control.mb-3(type='url', name='longUrl', placeholder='https://portal.ehawaii.gov/residents/newcomers-guide/#becomeAResidentOfHawaii', autofocus, required)
         .alert.alert-danger.invisible.d-none#error-message
         label.col-form-label.d-block(for='name') Customize your link
-        input.form-control.mb-3(type='text', name='aliasUrl', placeholder='NewcomersGuide', autofocus, required)
+        input.form-control.mb-3(type='text', name='aliasUrl', placeholder='NewcomersGuide', autofocus)
         button.btn.btn-primary.w-100#submit-btn(type='submit')
           i.far.fa-envelope.fa-sm
           |  Send
@@ -23,3 +23,17 @@ block content
     div.d-flex.justify-content-between.align-items-center
       p.mb-0#shortUrl 
       button.btn.btn-outline-dark.shadow-sm.invisible.d-none#copy-btn Copy to clipboard
+  br
+  section.card.rounded-10.pb-4.pt-2.mt-4.px-5.mx-auto
+    h1.border-bottom.pb-2.text-center Guidelines
+    .card-body
+      ul
+        li The link must start with " http:// " or " https:// "
+          ul
+            span.fas.fa-times.pe-2
+            span.fw-bold www.google.com
+            br
+            span.fas.fa-check.pe-1
+            span.fw-bold https://www.google.com
+        li An alias is generated if you do not customize the link.
+

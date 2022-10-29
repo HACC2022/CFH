@@ -7,14 +7,13 @@ block content
   .card.rounded-10.pb-4.pt-2.mt-4.px-5.mx-auto
     .card-body
       p In development
-      form(method='PUT' action=`/urls/${links.id}`)
-        input(type='hidden', name='method', value="PUT")
+      form(method='POST' action=`/urls/${links.id}` data-id=`${links.id}`)
         label.col-form-label.d-block(for='name') Enter the link you want to shorten
         input.form-control.mb-3(type='url', name='longUrl', placeholder='https://portal.ehawaii.gov/residents/newcomers-guide/#becomeAResidentOfHawaii', autofocus, required value=`${links.longUrl}`)
         .alert.alert-danger.invisible.d-none#error-message
         label.col-form-label.d-block(for='name') Customize your link
         input.form-control.mb-3(type='text', name='aliasUrl', placeholder='NewcomersGuide', autofocus, value=`${links.slug}`)
-        button.btn.btn-primary.w-100(type='submit')
+        button.btn.btn-primary.w-100#updateEditBtn(type='submit')
           i.far.fa-envelope.fa-sm
           |  Send
   br
@@ -22,3 +21,4 @@ block content
     .alert-heading 🎉 Your new URL 🎉
     hr
     p#shortUrl
+  script(src="/js/urlBtns.js")

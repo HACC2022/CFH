@@ -8,9 +8,10 @@ const Users = require('../models/User')
 module.exports = {
   index: async (req, res) => {
     try {
+      const link = req.query.p || 0;
+      const linksPerPage = 10;
       const currentUser = await Users.find({_id: req.user.id})
-      const userLinks = await Urls.find({user: currentUser[0].email})
-
+      const userLinks = await Urls.find({user: currentUser[0].email}).sort({date:1}).skip(link * linksPerPage).limit(linksPerPage)
       res.render('urls', {
         title: 'URLs',
         urlInfo:userLinks,
@@ -26,7 +27,7 @@ module.exports = {
     console.log(req.body.slugFromJSFile)
     try {
         await Urls.findOneAndDelete({slug:req.body.slugFromJSFile})
-        console.log('Deleted Todo')
+        console.log('Deleted URL')
         res.json('Deleted It')
     } catch(error) {
         console.error(error)
@@ -34,7 +35,7 @@ module.exports = {
   },
   sortDescending: async (req, res) => {
     try {
-      const links = await Urls.find().sort({date:-1})
+      const links = await Urls.find().sort({clickCounter:-1})
       const users = await Users.find()
       res.render('urls', {
         title: 'URLs',
@@ -49,7 +50,7 @@ module.exports = {
   },
   sortAscending: async (req, res) => {
     try {
-      const links = await Urls.find().sort({date:1})
+      const links = await Urls.find().sort({clickCounter:1})
       const users = await Users.find()
       res.render('urls', {
         title: 'URLs',
@@ -84,22 +85,20 @@ module.exports = {
     }
   },
   updateUrl: async (req, res) => {
-    // TODO: Edit functionality
+    const currentUser = await Users.find({_id: req.user.id})
+    const userLinks = await Urls.find({user: currentUser[0].email})
     try {
-      console.log('if u see this it works')
-      // if (!users) {
-      //   res.redirect('/')
-      // }
+      if (!currentUser) {
+        res.redirect('/')
+      }
       
-      // if (users[0].email != req.user.email) {
-      //   res.redirect('/urls')
-      // } else {
-      //   links = await Url.findOneAndUpdate({_id:req.params.id}, req.body, {
-      //     new: true,
-      //     runValidators: true
-      //   })
-      //   res.redirect('/urls')
-      // }
+      if (currentUser[0].email != req.user.email) {
+        res.redirect('/urls')
+      } else {
+        await Urls.findByIdAndUpdate(req.body.idFromJSFile, {slug: req.body.slugFromJSFile, longUrl: req.body.urlFromJSFile})
+        console.log('Edited URL')
+        res.json('Edited It')
+      }
     } catch(error) {
       console.error(error)
     }
