@@ -25,18 +25,19 @@ $(document).ready(() => {
       return;
     }
 
-    $('#result').removeClass('invisible'); 
+    $('#result').removeClass('invisible');
     $('#result').removeClass('d-none');
     $('#copy-btn').removeClass('invisible');
     $('#copy-btn').removeClass('d-none');
 
     $('#shortUrl').text(shortUrl);
     // $("body").append(slugEl, shortURLEl, longURLEL, clickCounterEl, dateEl);
+
   });
 
   $("#copy-btn").on("click", () => {
     const copyText = document.getElementById("shortUrl").innerText;
-    
+
     const textareaEl = document.createElement("textarea")
     textareaEl.value = copyText;
     // Select the text field
@@ -45,10 +46,10 @@ $(document).ready(() => {
 
     // Copy the text inside the text field
     navigator.clipboard.writeText(textareaEl.value);
-    
+
     // Alert the copied text
     alert("Copied the text: " + textareaEl.value);
-    
+
     textareaEl.remove();
 
   })
@@ -69,11 +70,11 @@ async function getURL(userURL, currentUserEmail) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({longUrl: userURL, user: currentUserEmail})
+    body: JSON.stringify({ longUrl: userURL, user: currentUserEmail })
   }
   const response = await fetch("/shorten", options)
 
   const json = await response.json();
-  
+
   return json;
 }
