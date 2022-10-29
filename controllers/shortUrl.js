@@ -95,7 +95,16 @@ exports.postShortUrl = async (req, res) => {
   const { country, countryCode } = await response.json();
 
   try {
-    let url = await Url.findOne({ longUrl, user, slug })
+    const queryParams = {
+      longUrl,
+      user
+    };
+
+    if (slug) {
+      queryParams[slug] = slug;
+    }
+
+    let url = await Url.findOne(queryParams)
     if (url) {
       return res.json(url)
     } else {

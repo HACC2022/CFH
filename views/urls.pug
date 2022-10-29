@@ -30,7 +30,7 @@ block content
                 td
                   a(href=`${link.slug}` target="_blank" id=`shortLink-${index}`) #{link.slug}
                 td
-                  p= moment(link.date).format('llll')
+                  p= moment(link.date).format('lll')
                 td
                   a(href=`//${link.longUrl.replace(/(^\w+:|^)\/\//, '')}` target="_blank ") #{link.longUrl}
                 td
