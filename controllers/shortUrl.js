@@ -69,103 +69,75 @@ const validators = [
 exports.postShortUrl = async (req, res) => {
   const base = process.env.BASE_URL
   const { nanoid } = await import('nanoid');
-  let { slug, longUrl, user } = req.body
+  let { slug, longUrl, user } = req.body;
 
-  
-  if (validateUrl(longUrl)) {
-    try {
-      let url = await Url.findOne({ longUrl, user, slug  })
-      if (url) {
-        res.json(url)
-      } else {
-        const id = nanoid(7)
-        const shortUrl = `${base}/${slug || id}`
+  if (!validateUrl(longUrl)) {
+    return res.status(401).json({
+      error: true,
+      message: 'Invalid Url'
+    });
+  }
 
-        url = new Url({
-          slug: slug || id,
-          longUrl,
-          shortUrl,
-          date: new Date(),
-          user,
-        })
-
-        await url.save()
-        res.json(url)
-      }
-    } catch (err) {
-      console.error(err)
-      res.status(500).json('Server Error')
+  for (const validator of validators) {
+    const validationResult = validator(longUrl);
+    if (validationResult !== true) {
+      return res.status(400).json({
+        error: true,
+        message: validationResult
+      });
     }
-  } else {
-    res.status(401).json('Invalid Url')
+  }
+
+  const ipAddress = await lookupPromise(new URL(longUrl).hostname);
+
+  const response = await fetch(`http://ip-api.com/json/${ipAddress}`);
+
+  const { country, countryCode } = await response.json();
+
+  try {
+    let url = await Url.findOne({ longUrl, user, slug })
+    if (url) {
+      return res.json(url)
+    } else {
+      const id = nanoid(7);
+      const shortUrl = `${base}/${slug || id}`;
+
+      url = new Url({
+        slug: slug || id,
+        longUrl,
+        shortUrl,
+        date: new Date(),
+        user,
+        ipAddress,
+        country,
+        countryCode
+      });
+
+      await url.save();
+      return res.json(url);
+    }
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json({
+      error: true,
+      message: 'Server Error'
+    });
   }
 }
 
 exports.getShortUrl = async (req, res) => {
-  const { slug } = req.params
+  const { slug } = req.params;
   try {
-    const url = await Url.findOne({ slug })
+    const url = await Url.findOne({ slug });
     if (url) {
-      url.clickCounter++
-      await url.save()
-      return res.redirect(url.longUrl)
+      url.clickCounter++;
+      await url.save();
+      return res.redirect(url.longUrl);
     } else {
-      return res.status(404).json({ message: 'Url not found' })
+      return res.status(404).json({ message: 'Url not found' });
     }
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ message: 'Server error' })
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
   }
 }
-
-
-// exports.postShortUrl = async (req, res) => {
-//   let { longUrl, user, slug } = req.body
-//   const base = process.env.BASE_URL
-//   const { nanoid } = await import ('nanoid')
-
-
-//   if (validateUrl(longUrl)) {
-//     try {
-//       let url = await Url.find({ longUrl, user, slug })
-//       if (url) {
-//         res.json(url)
-//       } else {
-
-//         const url = new Url({
-//           longUrl,
-//           shortUrl,
-//           slug,
-//           date: new Date(),
-//           user,
-//         })
-//         const shortUrl = `${base}/${slug}`
-//         await url.save()
-//         res.json(url)
-//       }
-//     } catch (err) {
-//       console.error(err)
-//       res.status(500).json('Server Error')
-//     }
-//   } else {
-//     res.status(401).json('Invalid Url')
-//   }
-// }
-
-// exports.getShortUrl = async (req, res) => {
-//   try {
-//     const url = await Url.findOne({ slug: req.params.slug })
-//     if (url) {
-//       await Url.updateOne(
-//         { slug: req.params.slug },
-//         { $inc: { clickCounter: 1 } }
-//       )
-//       return res.redirect(url.longUrl)
-//     } else {
-//       res.status(404).json('No url found')
-//     } 
-//   } catch (err) {
-//     console.error(err)
-//     res.status(500).json('Server Error')
-//   }
-// }
