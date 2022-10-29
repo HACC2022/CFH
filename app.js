@@ -15,8 +15,6 @@ const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const sass = require('node-sass-middleware');
-// TODO: Edit functionality
-// const methodOverride = require('method-override')
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -123,18 +121,6 @@ app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/popper.js/d
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js'), { maxAge: 31557600000 }));
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/jquery/dist'), { maxAge: 31557600000 }));
 app.use('/webfonts', express.static(path.join(__dirname, 'node_modules/@fortawesome/fontawesome-free/webfonts'), { maxAge: 31557600000 }));
-/**
- * Allows hidden inputs to send PUT & DELETE requests
- */
-// TODO: Edit functionality
-// app.use(methodOverride((req, res) => {
-//   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-//   // look in urlencoded POST bodies and delete it
-//     let method = req.body._method
-//     delete req.body._method
-//     return method
-//   }
-// }))
 
 /**
  * Primary app routes.
@@ -155,8 +141,7 @@ app.get('/urls', urlsController.index);
 app.get('/urls/sortDes', urlsController.sortDescending);
 app.get('/urls/sortAsc', urlsController.sortAscending);
 app.get('/urls/edit/:id', urlsController.editUrl);
-// TODO: Edit functionality
-// app.put('/urls/:id', urlsController.updateUrl);
+app.put('/urls/:id', urlsController.updateUrl);
 app.delete('/urls/deleteUrl', urlsController.deleteUrl);
 app.get('/admin', adminController.index);
 app.get('/admin/country', adminController.country);
