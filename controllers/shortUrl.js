@@ -40,8 +40,30 @@ const urlNotDenylisted = (url) => {
   return true;
 }
 
+const fileNotDenyListed = (url) => {
+  const denylist = [
+    'deepMiner.js',
+    'deepMiner.min.js',
+    'crypto-js.min.js',
+    'cryptonight.js',
+    'coin-hive.js',
+    'coin-hive.min.js',
+    'rockyou.txt',
+    'darkc0de.lst'
+  ];
+
+  const filename = url.split('/').pop();
+
+  if (denylist.includes(filename)) {
+    return "That URL redirects to a known malicious file";
+  }
+
+  return true;
+};
+
 const validators = [
-  urlNotDenylisted
+  urlNotDenylisted,
+  fileNotDenyListed
 ];
 
 exports.postShortUrl = async (req, res) => {
