@@ -34,7 +34,7 @@ exports.checkURL = (req, res) => {
       message: message
     });
   }
-  return true;
+  return res.json({error: false});
 
 }
 

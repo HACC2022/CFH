@@ -87,6 +87,8 @@ $(document).ready(() => {
 
 function addError(message)
 {
+  $('#success-message').addClass('invisible');
+  $('#success-message').addClass('d-none');
   $('#error-message').removeClass('invisible');
   $('#error-message').removeClass('d-none');
   $('#error-message').text("⚠️ " + message);
@@ -98,7 +100,8 @@ function addSuccess()
   $('#error-message').addClass('invisible');
   $('#error-message').addClass('d-none');
   $('#success-message').removeClass('invisible');
-  $('#success-message').removeClass('d-none'); 
+  $('#success-message').removeClass('d-none');
+  $('#success-message').text("✅" + "Valid URL!");
 }
 
 async function getURL(userURL, currentUserEmail, userSlug) {
