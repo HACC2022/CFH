@@ -140,13 +140,13 @@ exports.getShortUrl = async (req, res) => {
     const expiration = new Date(expirationDate);
 
     if (now.getTime() > expiration.getTime()) {
-      await url.remove();
+      res.redirect('/urls');
+    } else {
       return res.status(404).json({
         error: true,
         message: 'Url not found'
       });
-    } else {
-
+    }
       if (url) {
         url.clickCounter++;
         await url.save();
@@ -154,9 +154,9 @@ exports.getShortUrl = async (req, res) => {
       } else {
           return res.status(404).json({ message: 'Url not found' });
       }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Server error' });
     }
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-}
+
+}      
