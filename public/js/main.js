@@ -20,10 +20,7 @@ $(document).ready(() => {
     console.log(message);
 
     if (error) {
-      $('#error-message').removeClass('invisible');
-      $('#error-message').removeClass('d-none');
-      $('#error-message').text("⚠️ " + message);
-      return;
+      this.addError(message)
     }
 
     $('#result').removeClass('invisible');
@@ -63,7 +60,46 @@ $(document).ready(() => {
     alert("Copied the text: " + link);
   })
 
+  $("#urlInput").on("input", async(e) => {
+    const userURL = $('input[name="longUrl"]').val();
+    const currentUserEmail = $('p#currentUserEmail').text();
+
+    console.log(e.target.value)
+    const options = {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({  longUrl: userURL, user: currentUserEmail })
+    }
+    const response = await fetch("/checkURL", options);
+
+    const {error, message} = await response.json();
+    if(error)
+    {
+      this.addError(message);
+      return;
+    }
+    this.addSuccess(message);
+  })
+
 });
+
+function addError(message)
+{
+  $('#error-message').removeClass('invisible');
+  $('#error-message').removeClass('d-none');
+  $('#error-message').text("⚠️ " + message);
+  return;
+}
+
+function addSuccess()
+{
+  $('#error-message').addClass('invisible');
+  $('#error-message').addClass('d-none');
+  $('#success-message').removeClass('invisible');
+  $('#success-message').removeClass('d-none'); 
+}
 
 async function getURL(userURL, currentUserEmail, userSlug) {
   const options = {
