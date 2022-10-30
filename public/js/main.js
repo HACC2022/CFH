@@ -36,34 +36,25 @@ $(document).ready(() => {
 
   });
 
-  $("#copy-btn").on("click", () => {
-    const copyText = document.getElementById("shortUrl").innerText;
+  const newUrlCopyBtn = new ClipboardJS("#copy-btn")
+  const urlsCopyBtns = new ClipboardJS("[id^=copyUrlBtn]")
 
-    const textareaEl = document.createElement("textarea")
-    textareaEl.value = copyText;
-    // Select the text field
-    textareaEl.select();
-    textareaEl.setSelectionRange(0, 99999); // For mobile devices
-
-    // Copy the text inside the text field
-    navigator.clipboard.writeText(textareaEl.value);
-
-    // Alert the copied text
-    alert("Copied the text: " + textareaEl.value);
-
-    textareaEl.remove();
-
+  // Messages and make the button blink
+  newUrlCopyBtn.on("success", async function (e) {
+    e.clearSelection();
+    $("#copy-btn").prop("innerText", "Copied!");
+    await delay(1000);
+    $("#copy-btn").prop("innerText", "Copy to clipboard");
+  });
+  
+  urlsCopyBtns.on("success", async function (e) {
+    e.clearSelection();
+    $(`#${e.trigger.id}`).children(".fa-clipboard").toggleClass("fa-clipboard").toggleClass("fa-solid fa-check");
+    await delay(1000);
+    $(`#${e.trigger.id}`).children(".fa-check").toggleClass("fa-solid fa-check").toggleClass("fa-clipboard");
   })
-
-  $("[id^=copyUrlBtn]").on("click", (e) => {
-    const urlID = e.currentTarget.id
-    const indexNum = urlID.substring(urlID.lastIndexOf("-") + 1, urlID.length);
-    const link = $(`#shortLink-${indexNum}`).prop("href");
-    navigator.clipboard.writeText(link);
-    alert("Copied the text: " + link);
-  })
-
 });
+
 
 async function getURL(userURL, currentUserEmail, userSlug) {
   const options = {
@@ -79,4 +70,8 @@ async function getURL(userURL, currentUserEmail, userSlug) {
   const json = await response.json();
 
   return json;
+}
+
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
 }

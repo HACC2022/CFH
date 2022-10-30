@@ -38,7 +38,7 @@ block content
                 td
                   a.btn.btn-success.mx-1.my-3#editUrlBtn(href=`/urls/edit/${link.id}` title="Edit URL")
                     i.fas.fa-edit
-                  button.btn.btn-primary.mx-1.my-3(id=`copyUrlBtn-${index}` title="Copy to clipboard")
+                  button.btn.btn-primary.mx-1.my-3(id=`copyUrlBtn-${index}` title="Copy to clipboard")(data-clipboard-text=`${link.shortUrl}`)
                     i.fas.fa-clipboard
                   form.d-inline-block#delete-form(action="#", method="post")
                   button.btn.btn-danger.mx-1.my-3#delUrlBtn(type='submit' title="Delete URL")
