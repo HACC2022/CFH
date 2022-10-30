@@ -5,9 +5,6 @@ const dns = require('dns');
 const fetch = require('node-fetch');
 
 
-//* @route   POST /shorten
-//* @desc    Create short URL
-//* @access  Public
 
 async function lookupPromise(domain) {
   return new Promise((resolve, reject) => {
@@ -69,7 +66,7 @@ const validators = [
 exports.postShortUrl = async (req, res) => {
   const base = process.env.BASE_URL
   const { nanoid } = await import('nanoid');
-  let { slug, longUrl, user } = req.body;
+  let { slug, longUrl, expirationDate, user } = req.body;
 
   if (!validateUrl(longUrl)) {
     return res.status(401).json({
@@ -115,6 +112,7 @@ exports.postShortUrl = async (req, res) => {
         slug: slug || id,
         longUrl,
         shortUrl,
+        expirationDate,
         date: new Date(),
         user,
         ipAddress,
@@ -135,18 +133,30 @@ exports.postShortUrl = async (req, res) => {
 }
 
 exports.getShortUrl = async (req, res) => {
-  const { slug } = req.params;
+  const { slug, expirationDate } = req.params;
   try {
-    const url = await Url.findOne({ slug });
-    if (url) {
-      url.clickCounter++;
-      await url.save();
-      return res.redirect(url.longUrl);
+    const url = await Url.findOne({ slug, expirationDate });
+    const now = new Date();
+    const expiration = new Date(expirationDate);
+
+    if (now.getTime() > expiration.getTime()) {
+      res.redirect('/urls');
     } else {
-      return res.status(404).json({ message: 'Url not found' });
+      return res.status(404).json({
+        error: true,
+        message: 'Url not found'
+      });
     }
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-}
+      if (url) {
+        url.clickCounter++;
+        await url.save();
+        return res.redirect(url.longUrl);
+      } else {
+          return res.status(404).json({ message: 'Url not found' });
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Server error' });
+    }
+
+}      

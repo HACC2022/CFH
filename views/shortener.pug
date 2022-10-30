@@ -8,10 +8,14 @@ block content
     .card-body
     input(type='hidden', name='_csrf', value=_csrf)
     label.col-form-label.d-block(for='name') Enter the link you want to shorten
+      span(style={color: 'red'})  *  
     input.form-control.mb-3(type='url', name='longUrl', placeholder='https://portal.ehawaii.gov/residents/newcomers-guide/#becomeAResidentOfHawaii', autofocus, required)
     .alert.alert-danger.invisible.d-none#error-message
     label.col-form-label.d-block(for='name') Customize your link
     input.form-control.mb-3(type='text', name='slug', placeholder='NewcomersGuide', autofocus)
+    label.col-form-label.d-block(for='expiration') Choose an expiration date for your new link
+    input.form-control.mb-3(type='date', name='expirationDate', required pattern="\d{4}-\d{2}-\d{2}" min='2022-10-31', max='2024-10-31', autofocus)
+    span.validity 
     button.btn.btn-primary.w-100#submit-btn
       i.far.fa-envelope.fa-sm
       |  Send
