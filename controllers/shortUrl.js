@@ -133,15 +133,27 @@ exports.postShortUrl = async (req, res) => {
 }
 
 exports.getShortUrl = async (req, res) => {
-  const { slug } = req.params;
+  const { slug, expirationDate } = req.params;
   try {
-    const url = await Url.findOne({ slug });
-    if (url) {
-      url.clickCounter++;
-      await url.save();
-      return res.redirect(url.longUrl);
+    const url = await Url.findOne({ slug, expirationDate });
+    const now = new Date();
+    const expiration = new Date(expirationDate);
+
+    if (now.getTime() > expiration.getTime()) {
+      await url.remove();
+      return res.status(404).json({
+        error: true,
+        message: 'Url not found'
+      });
     } else {
-      return res.status(404).json({ message: 'Url not found' });
+
+      if (url) {
+        url.clickCounter++;
+        await url.save();
+        return res.redirect(url.longUrl);
+      } else {
+          return res.status(404).json({ message: 'Url not found' });
+      }
     }
   } catch (err) {
     console.error(err);
