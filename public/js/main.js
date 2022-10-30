@@ -21,8 +21,10 @@ $(document).ready(() => {
 
     if (error) {
       this.addError(message)
+      return;
     }
 
+    $("#urlInput").removeClass("border border-2 border-danger")
     $('#result').removeClass('invisible');
     $('#result').removeClass('d-none');
     $('#copy-btn').removeClass('invisible');
@@ -77,13 +79,20 @@ $(document).ready(() => {
     const {error, message} = await response.json();
     if(error)
     {
-      this.addError(message);
+      this.addInvalidURLError(message);
       return;
     }
     this.addSuccess(message);
   })
 
 });
+
+function addInvalidURLError()
+{
+  $('#success-message').addClass('invisible');
+  $('#success-message').addClass('d-none');
+  $("#urlInput").addClass("border border-2 border-danger")
+}
 
 function addError(message)
 {
@@ -97,6 +106,7 @@ function addError(message)
 
 function addSuccess()
 {
+  $("#urlInput").removeClass("border border-2 border-danger")
   $('#error-message').addClass('invisible');
   $('#error-message').addClass('d-none');
   $('#success-message').removeClass('invisible');

@@ -21,17 +21,11 @@ async function lookupPromise(domain) {
 
 exports.checkURL = (req, res) => {
   const { longUrl } = req.body;
-  const {status, message} = isUrlValid(longUrl)
+  const {status} = isUrlValid(longUrl)
   if(status === 401){
     return res.status(401).json({
       error: true,
       message: 'Invalid Url'
-    });
-  }
-  if(status === 400){
-    return res.status(400).json({
-      error: true,
-      message: message
     });
   }
   return res.json({error: false});
