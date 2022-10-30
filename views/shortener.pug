@@ -8,6 +8,7 @@ block content
     .card-body
     input(type='hidden', name='_csrf', value=_csrf)
     label.col-form-label.d-block(for='name') Enter the link you want to shorten
+      span(style={color: 'red'})  *  
     input.form-control.mb-3(type='url', name='longUrl', placeholder='https://portal.ehawaii.gov/residents/newcomers-guide/#becomeAResidentOfHawaii', autofocus, required)
     .alert.alert-danger.invisible.d-none#error-message
     label.col-form-label.d-block(for='name') Customize your link
