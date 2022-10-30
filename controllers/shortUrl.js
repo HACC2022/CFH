@@ -5,9 +5,6 @@ const dns = require('dns');
 const fetch = require('node-fetch');
 
 
-//* @route   POST /shorten
-//* @desc    Create short URL
-//* @access  Public
 
 async function lookupPromise(domain) {
   return new Promise((resolve, reject) => {
@@ -69,7 +66,7 @@ const validators = [
 exports.postShortUrl = async (req, res) => {
   const base = process.env.BASE_URL
   const { nanoid } = await import('nanoid');
-  let { slug, longUrl, user } = req.body;
+  let { slug, longUrl, expirationDate, user } = req.body;
 
   if (!validateUrl(longUrl)) {
     return res.status(401).json({
@@ -115,6 +112,7 @@ exports.postShortUrl = async (req, res) => {
         slug: slug || id,
         longUrl,
         shortUrl,
+        expirationDate,
         date: new Date(),
         user,
         ipAddress,
