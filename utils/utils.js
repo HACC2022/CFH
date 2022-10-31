@@ -31,8 +31,10 @@ const fileNotDenyListed = (url) => {
 const urlNotDenylisted = (url) => {
   const denylist = [
     "menehune.azurewebsites.net", // Prevent recursive shortening
+    "localhost", // Prevent self destruction
     "4chan.org", // Hackers known as 4chan
-    "localhost" // Prevent self destruction
+    "reddit.com",
+    "infowars.com",
   ];
 
   let urlObj = {};
@@ -46,6 +48,12 @@ const urlNotDenylisted = (url) => {
     return "That URL domain is banned";
   }
 
+  let hostnameWithoutSubdomains = urlObj.hostname.replace(/^[^.]+\./g, "");
+
+  if (denylist.includes(hostnameWithoutSubdomains)) {
+    return "That URL domain is banned";
+  }
+
   return true;
 }
 
@@ -55,6 +63,10 @@ const validators = [
 ];
 
 exports.isUrlValid = (longUrl) => {
+  if (!longUrl.startsWith('http://') && !longUrl.startsWith('https://')) {
+    return {status: 401, error: true, message: "Must start with http:// or https://"};
+  }
+
   if (!this.validateUrl(longUrl)) {
     return {status: 401, error: true, message: "Invalid Url"}
   }
