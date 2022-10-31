@@ -92,7 +92,7 @@ exports.postShortUrl = async (req, res) => {
     console.error(err)
     return res.status(500).json({
       error: true,
-      message: 'Alias currently exists'
+      message: 'Server Error'
     });
   }
 }
