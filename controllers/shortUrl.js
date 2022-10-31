@@ -3,7 +3,7 @@ Url.collection.createIndex({ slug: 1 }, { unique: true })
 const { isUrlValid } = require('../utils/utils')
 const dns = require('dns');
 const fetch = require('node-fetch');
-
+const SusUrlEvent = require('../models/SusUrlEvent');
 
 
 async function lookupPromise(domain) {
@@ -34,7 +34,8 @@ exports.postShortUrl = async (req, res) => {
   const { nanoid } = await import('nanoid');
   let { slug, longUrl, expirationDate, user } = req.body;
 
-  const {status, message} = isUrlValid(longUrl)
+  const {status, message} = isUrlValid(longUrl);
+  
   if(status === 401){
     return res.json({
       error: true,
@@ -43,6 +44,12 @@ exports.postShortUrl = async (req, res) => {
     });
   }
   if(status === 400){
+    const susUrlEvent = new SusUrlEvent({
+      user,
+      susUrl: longUrl, 
+    });
+    await susUrlEvent.save();
+  
     return res.json({
       error: true,
       message: message,
