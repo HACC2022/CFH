@@ -2,8 +2,13 @@ extends layout
 
 block head
   link('rel'='stylesheet' href='https://unpkg.com/leaflet@1.9.2/dist/leaflet.css')
+  script(src='/js/lib/jquery.min.js')
   script(src='https://unpkg.com/leaflet@1.9.2/dist/leaflet.js')
   script(src='/js/countries.geo.js')
+  script(src="https://cdn.jsdelivr.net/npm/chart.js")
+  link('rel'="stylesheet" href='https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css')
+  script(src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js")
+  
   style.
     #map {
       width: 100%;
@@ -21,17 +26,43 @@ block head
         margin: 0 0 5px;
         color: #777;
     }
+    
 
 block content
   .pb-2.mt-2.mb-4.border-bottom
 
   h3 Admin Page
+  h4 Malicious URL Data Table
+  table(id="table_id" class="display").my-5
+    thead
+      tr
+        th(scope="col") User
+        th(scope="col") Long Url
+        th(scope="col") Date
+    tbody
+      each susEvent in susEvents
+        tr 
+          td
+            p= susEvent.user 
+          td 
+            p= susEvent.susUrl
+          td 
+            p= new Date(parseInt(susEvent.date)).toLocaleString()
+  h4 URL Data by Country
+  div.my-5
+    .row
+      div#map.col
+      div.col.align-self-center
+        canvas#urlCountryData
+        p The urls by country chart displays the number of urls shortened by each country of origin.
+  h4 Https vs Http
+  div.my-5
+    .row
+      div.col
+        canvas#urlSecurityData
+      div.col.align-self-center
+        p The http vs https chart displays the difference in counts between https routes and http routes. This helps provide insight on whether users are shortening routes that have SSL enabled. 
 
-  p Here are the admin things.
-  p ... Statistics of bad URLs being requested ...
-  p ... Audit of shortened URLs being created, and by who ...
-  p ... Etc ...
-
-  div#map
 
   script(src='/js/map.js')
+  script(src='/js/admin.js')

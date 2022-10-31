@@ -145,6 +145,7 @@ app.put('/urls/:id', urlsController.updateUrl);
 app.delete('/urls/deleteUrl', urlsController.deleteUrl);
 app.get('/admin', adminController.index);
 app.get('/admin/country', adminController.country);
+app.get('/admin/getURLs', adminController.getURLs);
 app.get('/account/verify', passportConfig.isAuthenticated, userController.getVerifyEmail);
 app.get('/account/verify/:token', passportConfig.isAuthenticated, userController.getVerifyEmailToken);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
