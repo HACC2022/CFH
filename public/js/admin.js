@@ -67,5 +67,17 @@ const filteredData =  getCountries();
 
 const urls = getURLs();
 
-$('#table_id').DataTable();
+$('#table_id').DataTable(
+  {
+    dom: 'Bftip',
+    searchPanes: {
+        threshold: 1
+    },
+    select: 'multi',
+    buttons: [
+      'pdf',
+      'excel',
+    ],
+  }
+);
 
