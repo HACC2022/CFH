@@ -14,6 +14,9 @@ const UrlSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  expirationDate: {
+    type: Date,
+  },
   clickCounter: {
     type: Number,
     required: true,

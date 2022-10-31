@@ -10,11 +10,12 @@ $(document).ready(() => {
     const userLongURL = $('input[name="longUrl"]').val();
     const currentUserEmail = $('p#currentUserEmail').text();
     const userSlug = $('input[name="slug"]').val();
+    const ShortLinkEpirationDate = $('input[name="expirationDate"]').val();
 
     const {
       error, message,
-      slug, longUrl, shortUrl, clickCounter, date
-    } = await getURL(userLongURL, currentUserEmail, userSlug);
+      slug, longUrl, shortUrl, expirationDate, clickCounter, date
+    } = await getURL(userLongURL, currentUserEmail, userSlug, ShortLinkEpirationDate);
 
     console.log(error);
     console.log(message);
@@ -35,23 +36,22 @@ $(document).ready(() => {
 
   });
 
-  $("#copy-btn").on("click", () => {
-    const copyText = document.getElementById("shortUrl").innerText;
+  const newUrlCopyBtn = new ClipboardJS("#copy-btn")
+  const urlsCopyBtns = new ClipboardJS("[id^=copyUrlBtn]")
 
-    const textareaEl = document.createElement("textarea")
-    textareaEl.value = copyText;
-    // Select the text field
-    textareaEl.select();
-    textareaEl.setSelectionRange(0, 99999); // For mobile devices
-
-    // Copy the text inside the text field
-    navigator.clipboard.writeText(textareaEl.value);
-
-    // Alert the copied text
-    alert("Copied the text: " + textareaEl.value);
-
-    textareaEl.remove();
-
+  // Messages and make the button blink
+  newUrlCopyBtn.on("success", async function (e) {
+    e.clearSelection();
+    $("#copy-btn").prop("innerText", "Copied!");
+    await delay(1000);
+    $("#copy-btn").prop("innerText", "Copy to clipboard");
+  });
+  
+  urlsCopyBtns.on("success", async function (e) {
+    e.clearSelection();
+    $(`#${e.trigger.id}`).children(".fa-clipboard").toggleClass("fa-clipboard").toggleClass("fa-solid fa-check");
+    await delay(1000);
+    $(`#${e.trigger.id}`).children(".fa-check").toggleClass("fa-solid fa-check").toggleClass("fa-clipboard");
   })
 
   $("[id^=copyUrlBtn]").on("click", (e) => {
@@ -114,13 +114,13 @@ function addSuccess()
   $('#success-message').text("✅" + "Valid URL!");
 }
 
-async function getURL(userURL, currentUserEmail, userSlug) {
+async function getURL(userURL, currentUserEmail, userSlug, ShortLinkEpirationDate) {
   const options = {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ slug: userSlug, longUrl: userURL, user: currentUserEmail, })
+    body: JSON.stringify({ slug: userSlug, longUrl: userURL, user: currentUserEmail, expirationDate: ShortLinkEpirationDate })
   }
   console.log(userSlug);
   const response = await fetch("/shorten", options)
@@ -129,3 +129,8 @@ async function getURL(userURL, currentUserEmail, userSlug) {
 
   return json;
 }
+
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+
