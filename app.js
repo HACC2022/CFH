@@ -154,6 +154,7 @@ app.post('/account/delete', passportConfig.isAuthenticated, userController.postD
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 app.post('/shorten', shortUrlController.postShortUrl);
 app.get('/shortener', shortenerController.index);
+app.post('/checkURL', shortUrlController.checkURL);
 
 
 // Must be last due to wildcard matching

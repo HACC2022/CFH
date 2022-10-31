@@ -1,6 +1,6 @@
 const Url = require('../models/Url')
 Url.collection.createIndex({ slug: 1 }, { unique: true })
-const { validateUrl } = require('../utils/utils')
+const { isUrlValid } = require('../utils/utils')
 const dns = require('dns');
 const fetch = require('node-fetch');
 
@@ -16,73 +16,38 @@ async function lookupPromise(domain) {
 };
 
 
-const urlNotDenylisted = (url) => {
-  const denylist = [
-    "menehune.azurewebsites.net", // Prevent recursive shortening
-    "4chan.org", // Hackers known as 4chan
-    "localhost" // Prevent self destruction
-  ];
-
-  let urlObj = {};
-  try {
-    urlObj = new URL(url);
-  } catch (err) {
-    return 'Invalid URL';
+exports.checkURL = (req, res) => {
+  const { longUrl } = req.body;
+  const {status} = isUrlValid(longUrl)
+  if(status === 401){
+    return res.status(401).json({
+      error: true,
+      message: 'Invalid Url'
+    });
   }
+  return res.json({error: false});
 
-  if (denylist.includes(urlObj.hostname) || denylist.includes(urlObj.host)) {
-    return "That URL domain is banned";
-  }
-
-  return true;
 }
-
-const fileNotDenyListed = (url) => {
-  const denylist = [
-    'deepMiner.js',
-    'deepMiner.min.js',
-    'crypto-js.min.js',
-    'cryptonight.js',
-    'coin-hive.js',
-    'coin-hive.min.js',
-    'rockyou.txt',
-    'darkc0de.lst'
-  ];
-
-  const filename = url.split('/').pop();
-
-  if (denylist.includes(filename)) {
-    return "That URL redirects to a known malicious file";
-  }
-
-  return true;
-};
-
-const validators = [
-  urlNotDenylisted,
-  fileNotDenyListed
-];
 
 exports.postShortUrl = async (req, res) => {
   const base = process.env.BASE_URL
   const { nanoid } = await import('nanoid');
   let { slug, longUrl, expirationDate, user } = req.body;
 
-  if (!validateUrl(longUrl)) {
-    return res.status(401).json({
+  const {status, message} = isUrlValid(longUrl)
+  if(status === 401){
+    return res.json({
       error: true,
-      message: 'Invalid Url'
+      message: 'Invalid Url',
+      status: 401
     });
   }
-
-  for (const validator of validators) {
-    const validationResult = validator(longUrl);
-    if (validationResult !== true) {
-      return res.status(400).json({
-        error: true,
-        message: validationResult
-      });
-    }
+  if(status === 400){
+    return res.json({
+      error: true,
+      message: message,
+      status: 400
+    });
   }
 
   const ipAddress = await lookupPromise(new URL(longUrl).hostname);
