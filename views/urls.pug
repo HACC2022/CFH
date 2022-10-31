@@ -31,7 +31,7 @@ block content
                   a(href=`${link.slug}` target="_blank" id=`shortLink-${index}`) #{link.slug}
                 td
                   p= moment(link.date).format('lll')
-                td
+                td.w-25
                   a(href=`//${link.longUrl.replace(/(^\w+:|^)\/\//, '')}` target="_blank ") #{link.longUrl}
                 td
                   p #{link.clickCounter}

@@ -6,7 +6,6 @@ block head
 block content
   .card.rounded-10.pb-4.pt-2.mt-4.px-5.mx-auto
     .card-body
-      p In development
       form(method='POST' action=`/urls/${links.id}` data-id=`${links.id}`)
         label.col-form-label.d-block(for='name') Enter the link you want to shorten
         input.form-control.mb-3(type='url', name='longUrl', placeholder='https://portal.ehawaii.gov/residents/newcomers-guide/#becomeAResidentOfHawaii', autofocus, required value=`${links.longUrl}`)
