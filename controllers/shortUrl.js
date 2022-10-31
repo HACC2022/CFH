@@ -30,7 +30,7 @@ exports.checkURL = (req, res) => {
 }
 
 exports.postShortUrl = async (req, res) => {
-  const base = process.env.BASE_URL
+  const base = 'https://menehune.azurewebsites.net'
   const { nanoid } = await import('nanoid');
   let { slug, longUrl, expirationDate, user } = req.body;
 
@@ -75,6 +75,7 @@ exports.postShortUrl = async (req, res) => {
 
     let url = await Url.findOne(queryParams)
     if (url) {
+      url.shortUrl = url.shortUrl.replace('http://localhost:8080', 'https://menehune.azurewebsites.net');
       return res.json(url)
     } else {
       const id = nanoid(7);

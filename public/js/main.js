@@ -54,14 +54,6 @@ $(document).ready(() => {
     $(`#${e.trigger.id}`).children(".fa-check").toggleClass("fa-solid fa-check").toggleClass("fa-clipboard");
   })
 
-  $("[id^=copyUrlBtn]").on("click", (e) => {
-    const urlID = e.currentTarget.id
-    const indexNum = urlID.substring(urlID.lastIndexOf("-") + 1, urlID.length);
-    const link = $(`#shortLink-${indexNum}`).prop("href");
-    navigator.clipboard.writeText(link);
-    alert("Copied the text: " + link);
-  })
-
   $("#urlInput").on("input", async(e) => {
     const userURL = $('input[name="longUrl"]').val();
     const currentUserEmail = $('p#currentUserEmail').text();
